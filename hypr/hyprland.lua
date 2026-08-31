@@ -1,0 +1,6 @@
+require("hyprland/animation")
+require("hyprland/general")
+require("hyprland/rule")
+require("hyprland/keybind")
+require("hyprland/exec")
+require("hyprland/env")
