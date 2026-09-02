@@ -32,7 +32,8 @@ Singleton {
 
     FolderListModel {
         id: wallpaperModel
-        folder: root.wallpaperDir
+        folder: "file://" + root.wallpaperDir
+        showFiles: true
         showDirs: false
         showOnlyReadable: true
         nameFilters: [
@@ -58,12 +59,21 @@ Singleton {
                     if (!currentPath)
                         continue
 
-                    root.wallpaperPath = currentPath
+                    root.wallpaperPath = filePath(currentPath)
                     colorUpdateTimer.restart()
                     break
                 }
             }
         }
+    }
+
+    function filePath(path) {
+        const value = String(path)
+
+        if (value.startsWith("file://"))
+            return decodeURIComponent(value.replace("file://", ""))
+
+        return value
     }
 
     function updateColors() {
@@ -84,12 +94,13 @@ Singleton {
         if (!p)
             return
 
-        wallpaperPath = String(p)
+        const path = filePath(p)
+        wallpaperPath = path
 
         Quickshell.execDetached([
             "awww",
             "img",
-            wallpaperPath,
+            path,
             "--transition-type", "random",
             "--transition-fps", "60",
             "--transition-duration", "2"
