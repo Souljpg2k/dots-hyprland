@@ -20,7 +20,6 @@ PanelWindow {
 
     exclusiveZone: 0
     color: "transparent"
-    WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
     property int focusIndex: 0
@@ -56,7 +55,7 @@ PanelWindow {
             return;
         closing = true;
         focusGrab.active = false;
-        hideAnimation.start();
+        GlobalStates.closePowerMenu(); 
     }
 
     function moveFocus(step) {
@@ -64,6 +63,7 @@ PanelWindow {
     }
 
     contentItem.focus: true
+
     contentItem.Keys.onPressed: event => {
         if (event.key === Qt.Key_Left || event.key === Qt.Key_Up) {
             moveFocus(-1);
@@ -79,7 +79,7 @@ PanelWindow {
         event.accepted = true;
     }
 
-    Component.onCompleted: contentItem.forceActiveFocus()
+    Component.onCompleted: animation.startEnter()
 
     HyprlandFocusGrab {
         id: focusGrab
@@ -97,9 +97,6 @@ PanelWindow {
         anchors.centerIn: parent
         width: 550
         height: 120
-        opacity: 0
-        scale: 0.88
-        transformOrigin: Item.Center
 
         RowLayout {
             anchors.fill: parent
@@ -142,7 +139,7 @@ PanelWindow {
                             text: modelData.icon
                             font.pixelSize: p.iconSize
                             color: card.hovered || card.focused ? Appearance.on_primary : Appearance.on_surface
-                            scale: card.hovered || card.focused ? 1.12 : 1.0
+                            scale: card.hovered || card.focused ? 1.12 : 1
 
                             Behavior on scale {
                                 NumberAnimation {
@@ -170,52 +167,22 @@ PanelWindow {
         }
     }
 
-    ParallelAnimation {
-        id: showAnimation
-        running: true
+    Animations {
+        id: animation
+        target: content
 
-        onFinished: focusGrab.active = true
-
-        NumberAnimation {
-            target: content
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: 220
-            easing.type: Easing.OutCubic
-        }
-        NumberAnimation {
-            target: content
-            property: "scale"
-            from: 0.88
-            to: 1
-            duration: 320
-            easing.type: Easing.OutBack
-            easing.overshoot: 1.05
+        onExited: {
+            GlobalStates.powerMenuVisible = false;
+            GlobalStates.powerMenuClosing = false;
         }
     }
 
-    ParallelAnimation {
-        id: hideAnimation
+    Connections {
+        target: GlobalStates
 
-        NumberAnimation {
-            target: content
-            property: "opacity"
-            to: 0
-            duration: 300
-            easing.type: Easing.InCubic
-        }
-        NumberAnimation {
-            target: content
-            property: "scale"
-            to: 0.88
-            duration: 360
-            easing.type: Easing.InCubic
-        }
-
-        onStopped: {
-            GlobalStates.closePowerMenu();
-            GlobalStates.powerMenuClosing = false;
+        function onPowerMenuClosingChanged() {
+            if (GlobalStates.powerMenuClosing)
+                animation.startExit();
         }
     }
 }

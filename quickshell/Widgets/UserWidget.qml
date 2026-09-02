@@ -12,8 +12,12 @@ PanelWindow {
 
     property bool closing: false
 
-    anchors.top: true
-    margins.top: 1
+    anchors {
+        top: true
+        left: true
+        right: true
+        bottom: true
+    }
     implicitWidth: 200
     implicitHeight: 130
     exclusiveZone: 0
@@ -23,16 +27,21 @@ PanelWindow {
         if (closing)
             return;
         closing = true;
-        fadeIn.stop();
-        fadeOut.start();
+        animation.startExit();
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: w.requestClose()
     }
 
     Item {
         id: content
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
         opacity: 0
         scale: 0.94
-        transformOrigin: Item.Bottom
+        transformOrigin: Item.Top
 
         StyledShadow {
             anchors.centerIn: b
@@ -42,7 +51,11 @@ PanelWindow {
 
         Rectangle {
             id: b
-            anchors.centerIn: parent
+            anchors {
+                top: parent.top
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 15
+            }
             width: 180
             height: 110
             radius: Appearance.radius
@@ -163,51 +176,20 @@ PanelWindow {
         }
     }
 
-    ParallelAnimation {
-        id: fadeIn
-        
-        NumberAnimation { 
-            target: content
-            property: "opacity" 
-            from: 0
-            to: 1
-            duration: 240 
-            easing.type: Easing.OutCubic 
-        }
-        NumberAnimation { 
-            target: content 
-            property: "scale" 
-            from: 0.94
-            to: 1
-            duration: 300 
-            easing.type: Easing.OutBack 
-            easing.overshoot: 1.05 
-        }
+    Animations {
+        id: animation
+        target: content
+
+        enterX: 0
+        enterY: -50
+
+        exitX: 0
+        exitY: -24
+
+        onExited: GlobalStates.userWidgetsVisible = false
     }
 
-    SequentialAnimation {
-        id: fadeOut
-        
-        ParallelAnimation {
-            NumberAnimation { 
-                target: content
-                property: "opacity" 
-                to: 0
-                duration: 180 
-                easing.type: Easing.InCubic 
-            }
-            NumberAnimation { 
-                target: content 
-                property: "scale" 
-                to: 0.94
-                duration: 200 
-                easing.type: Easing.InCubic 
-            }
-        }
-        ScriptAction { script: GlobalStates.userWidgetsVisible = false }
-    }
-
-    Component.onCompleted: fadeIn.start()
+    Component.onCompleted: animation.startEnter()
 
     Connections {
         target: GlobalStates

@@ -51,7 +51,6 @@ PanelWindow {
 
             UserName {}
             Workspaces {}
-            SysButton {}
             HyprlandXkb {}
         }
     }
@@ -59,22 +58,21 @@ PanelWindow {
     RowLayout {
         anchors {
             right: parent.right
-            rightMargin: 20
+            rightMargin: 15
             verticalCenter: parent.verticalCenter
         }
 
         Item {
-            width: 195
+            width: 240
             height: bar.h
 
             RowLayout {
                 anchors.fill: parent
-                spacing: -1
+                spacing: -24
 
                 Item {
-                    width: 75
+                    width: 100
                     height: 24
-                    Layout.leftMargin: 3
 
                     RowLayout {
                         anchors.centerIn: parent
@@ -85,8 +83,8 @@ PanelWindow {
                         DarkModeBtn {}
                     }
                 }
-
                 DateTime {}
+                SysButton {}
             }
         }
     }

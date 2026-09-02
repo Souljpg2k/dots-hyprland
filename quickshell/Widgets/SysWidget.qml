@@ -28,75 +28,48 @@ PanelWindow {
     color: "transparent"
     WlrLayershell.layer: WlrLayer.Bottom
 
-    Column {
+    Item {
         id: content
-        anchors.centerIn: parent
-        anchors.fill: parent
+        width: parent.width
+        height: parent.height
 
-        Cpu {}
-        Gpu {}
-        Mem {}
-    }
+        Column {
+            anchors.fill: parent
+            anchors.centerIn: parent
 
-    ParallelAnimation {
-        id: fadeIn
-
-        NumberAnimation {
-            target: content
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: 240
-            easing.type: Easing.OutCubic
-        }
-
-        NumberAnimation {
-            target: content
-            property: "scale"
-            from: 0.94
-            to: 1
-            duration: 300
-            easing.type: Easing.OutBack
-            easing.overshoot: 1.05
+            Cpu {}
+            Gpu {}
+            Mem {}
         }
     }
 
-    SequentialAnimation {
-        id: fadeOut
-
-        ParallelAnimation {
-            NumberAnimation {
-                target: content
-                property: "opacity"
-                to: 0
-                duration: 180
-                easing.type: Easing.InCubic
-            }
-
-            NumberAnimation {
-                target: content
-                property: "scale"
-                to: 0.94
-                duration: 200
-                easing.type: Easing.InCubic
-            }
-        }
-
-        ScriptAction {
-            script: GlobalStates.sysWidgetsVisible = false
-        }
+    function close() {
+        if (closing)
+            return;
+        closing = true;
+        animation.startExit();
     }
 
-    Component.onCompleted: fadeIn.start()
+    Animations {
+        id: animation
+        target: content
+
+        enterX: 50
+        enterY: 0
+
+        exitX: 100
+        exitY: 0
+
+        onExited: GlobalStates.sysWidgetsVisible = false
+    }
+
+    Component.onCompleted: animation.startEnter()
 
     Connections {
         target: GlobalStates
+
         function onSysWidgetsCloseRequested() {
-            if (root.closing)
-                return;
-            root.closing = true;
-            fadeIn.stop();
-            fadeOut.start();
+            root.close();
         }
     }
 }

@@ -5,7 +5,6 @@ import qs.Services
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
-import Quickshell.Hyprland
 import Quickshell.Wayland
 
 PanelWindow {
@@ -20,18 +19,17 @@ PanelWindow {
         bottom: true
     }
 
+    implicitWidth: 600
+    implicitHeight: 320
     exclusiveZone: 0
     color: "transparent"
-    WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
     function close() {
         if (closing)
-            return
-
-        closing = true
-        fadeIn.stop()
-        fadeOut.start()
+            return;
+        closing = true;
+        animation.startExit();
     }
 
     MouseArea {
@@ -41,15 +39,10 @@ PanelWindow {
 
     Item {
         id: panel
-        width: 600
-        height: 320
+        width: parent.width
+        height: parent.height
         opacity: 0
         scale: 0.94
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
-            bottomMargin: 8
-        }
 
         StyledShadow {
             anchors.centerIn: box
@@ -67,13 +60,12 @@ PanelWindow {
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
-                bottomMargin: -18
+                bottomMargin: 18
             }
 
             StyledText {
                 id: title
                 text: "Wallpapers"
-                opacity: 0
                 anchors {
                     top: parent.top
                     left: parent.left
@@ -103,45 +95,38 @@ PanelWindow {
                 }
 
                 function choose(index) {
-                    const item = itemAtIndex(index)
+                    const item = itemAtIndex(index);
                     if (!item)
-                        return
-                    currentIndex = index
-                    Wallpapers.apply(item.filePath)
-                    root.close()
+                        return;
+                    currentIndex = index;
+                    Wallpapers.apply(item.filePath);
+                    root.close();
                 }
 
                 Keys.onPressed: event => {
-                    let next = currentIndex
+                    let next = currentIndex;
 
-                    switch (event.key) {
-                    case Qt.Key_Left:
-                        next--
-                        break
-                    case Qt.Key_Right:
-                        next++
-                        break
-                    case Qt.Key_Up:
-                        next -= 3
-                        break
-                    case Qt.Key_Down:
-                        next += 3
-                        break
-                    case Qt.Key_Return:
-                    case Qt.Key_Enter:
-                    case Qt.Key_Space:
-                        choose(currentIndex)
-                        event.accepted = true
-                        return
-                    case Qt.Key_Escape:
-                        root.close()
-                        event.accepted = true
-                        return
-                    default:
-                        return
+                    if (event.key === Qt.Key_Left) {
+                        next--;
+                    } else if (event.key === Qt.Key_Right) {
+                        next++;
+                    } else if (event.key === Qt.Key_Up) {
+                        next -= 3;
+                    } else if (event.key === Qt.Key_Down) {
+                        next += 3;
+                    } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_Space) {
+                        choose(currentIndex);
+                        event.accepted = true;
+                        return;
+                    } else if (event.key === Qt.Key_Escape) {
+                        root.close();
+                        event.accepted = true;
+                        return;
+                    } else {
+                        return;
                     }
-                    currentIndex = Math.max(0, Math.min(count - 1, next))
-                    event.accepted = true
+                    currentIndex = Math.max(0, Math.min(count - 1, next));
+                    event.accepted = true;
                 }
 
                 Component.onCompleted: forceActiveFocus()
@@ -203,7 +188,7 @@ PanelWindow {
                         Rectangle {
                             anchors.fill: parent
                             color: Appearance.background
-                            opacity: mouse.pressed? 0.28 : mouse.containsMouse ? 0 : 0.15
+                            opacity: mouse.pressed ? 0.28 : mouse.containsMouse ? 0 : 0.15
 
                             Behavior on opacity {
                                 NumberAnimation {
@@ -235,89 +220,26 @@ PanelWindow {
         }
     }
 
-    ParallelAnimation {
-        id: fadeIn
+    Animations {
+        id: animation
+        target: panel
 
-        NumberAnimation {
-            target: panel;
-            property: "opacity";
-            to: 1;
-            duration: 260;
-            easing.type: Easing.OutCubic
-        }
-        NumberAnimation {
-            target: panel
-            property: "scale"
-            to: 1
-            duration: 320
-            easing.type: Easing.OutBack
-        }
-        NumberAnimation {
-            target: box
-            property: "anchors.bottomMargin"
-            to: 4
-            duration: 320
-            easing.type: Easing.OutCubic
-        }
-        
-        SequentialAnimation {
-            PauseAnimation {
-                duration: 80
-            }
-            PropertyAction {
-                target: title
-                property: "opacity"
-                value: 1
-            }
-        }
-    }
+        enterX: 0
+        enterY: 100
 
-    SequentialAnimation {
-        id: fadeOut
+        exitX: 0
+        exitY: 100
 
-        ParallelAnimation {
-            NumberAnimation {
-                target: panel
-                property: "opacity"
-                to: 0
-                duration: 200
-                easing.type: Easing.InCubic
-            }
-            NumberAnimation {
-                target: panel
-                property: "scale"
-                to: 0.94
-                duration: 220
-                easing.type: Easing.InCubic
-            }
-            NumberAnimation {
-                target: box
-                property: "anchors.bottomMargin"
-                to: -14
-                duration: 220
-                easing.type: Easing.InCubic
-            }
-        }
-        PropertyAction {
-            target: GlobalStates
-            property: "wallpaperPickerVisible"
-            value: false
-        }
-    }
-
-    HyprlandFocusGrab {
-        windows: [root]
-        active: GlobalStates.wallpaperPickerVisible
-        onCleared: root.close()
+        onExited: GlobalStates.wallpaperPickerVisible = false
     }
 
     Connections {
         target: GlobalStates
 
         function onWallpaperCloseRequested() {
-            root.close()
+            root.close();
         }
     }
 
-    Component.onCompleted: fadeIn.start()
+    Component.onCompleted: animation.startEnter()
 }

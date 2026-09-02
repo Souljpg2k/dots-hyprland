@@ -66,7 +66,6 @@ Singleton {
 
     function closePowerMenu() {
         powerMenuClosing = true;
-        powerMenuVisible = false;
 
         if (clockHiddenByPowerMenu) {
             clockHiddenByPowerMenu = false;
