@@ -9,85 +9,101 @@ Singleton {
     id: root
 
     property string home: Quickshell.env("HOME")
-    property url wallpaperDir: "file://" + home + "/Wallpapers"
-    property url wallpaperPath: ""
-    property bool darkMode: false
+    property string wallpaperDir: home + "/Wallpapers"
+    property string wallpaperPath: ""
+    property alias darkMode: stateAdapter.darkMode
+    property alias wallpapers: wallpaperModel
 
-    function path(value) {
-        const p = String(value ?? "")
-        return p.startsWith("file://") ? p.slice(7) : p
+    FileView {
+        path: Quickshell.stateDir + "/wallpaper.json"
+        onAdapterUpdated: writeAdapter()
+
+        JsonAdapter {
+            id: stateAdapter
+            property bool darkMode: false
+        }
     }
 
-    function fileUrl(value) {
-        const p = String(value ?? "")
-        return p.startsWith("file://") ? p : "file://" + p
-    }
-
-    function updateColors() {
-        const p = path(wallpaperPath)
-        if (!p)
-            return
-
-        Quickshell.execDetached([
-            "matugen","image",p,
-            "--source-color-index", "0",
-            "-m", darkMode ? "dark" : "light"
-        ])
-    }
-
-    function apply(value) {
-        const p = path(value)
-        if (!p)
-            return
-
-        wallpaperPath = fileUrl(p)
-
-        Quickshell.execDetached([
-            "awww", "img", p,
-            "--transition-type", "random",
-            "--transition-fps", "60",
-            "--transition-duration", "2"
-        ])
-        updateColors()
-    }
-
-    function toggleDarkMode() {
-        darkMode = !darkMode
-        updateColors()
+    Timer {
+        id: colorUpdateTimer
+        interval: 500
+        onTriggered: updateColors()
     }
 
     FolderListModel {
-        id: model
+        id: wallpaperModel
         folder: root.wallpaperDir
+        showDirs: false
+        showOnlyReadable: true
         nameFilters: [
             "*.jpg", "*.jpeg", "*.png", "*.webp", "*.gif",
             "*.JPG", "*.JPEG", "*.PNG", "*.WEBP", "*.GIF"
         ]
-        showDirs: false
-        showOnlyReadable: true
     }
 
-    property alias wallpapers: model
-
     Process {
-        id: query
+        id: wallpaperQuery
         command: ["awww", "query"]
+
         stdout: StdioCollector {
             onStreamFinished: {
                 const lines = text.trim().split("\n")
+
                 for (const line of lines) {
                     const index = line.indexOf("image:")
                     if (index < 0)
                         continue
-                    const p = line.slice(index + 6).trim()
-                    if (p) {
-                        root.wallpaperPath = root.fileUrl(p)
-                        break
-                    }
+
+                    const currentPath = line.slice(index + 6).trim()
+                    if (!currentPath)
+                        continue
+
+                    root.wallpaperPath = currentPath
+                    colorUpdateTimer.restart()
+                    break
                 }
             }
         }
     }
 
-    Component.onCompleted: query.running = true
+    function updateColors() {
+        if (!wallpaperPath)
+            return
+
+        Quickshell.execDetached([
+            "matugen",
+            "image",
+            wallpaperPath,
+            "--source-color-index", "0",
+            "-m",
+            darkMode ? "dark" : "light"
+        ])
+    }
+
+    function apply(p) {
+        if (!p)
+            return
+
+        wallpaperPath = String(p)
+
+        Quickshell.execDetached([
+            "awww",
+            "img",
+            wallpaperPath,
+            "--transition-type", "random",
+            "--transition-fps", "60",
+            "--transition-duration", "2"
+        ])
+
+        colorUpdateTimer.restart()
+    }
+
+    function toggleDarkMode() {
+        darkMode = !darkMode
+        colorUpdateTimer.restart()
+    }
+
+    Component.onCompleted: {
+        wallpaperQuery.running = true
+    }
 }
