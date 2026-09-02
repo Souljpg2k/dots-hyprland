@@ -3,26 +3,26 @@ import qs.Components
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Widgets
 
 Item {
     id: root
     width: wsRow.width + rowPadding * 2
     height: parent.height
 
-    readonly property int workspaceCount: 10
+    readonly property int wsCount: 10
     readonly property int rowPadding: 8
     readonly property int itemWidth: 26
-    readonly property int workspaceHeight: 28
-    readonly property int indicatorSize: 22
-    readonly property int animDuration: 250
+    readonly property int dotSize: 22
+    readonly property int animDuration: 350
     readonly property int activeId: Hyprland.focusedWorkspace?.id ?? 1
 
     function indicatorX(id) {
-        return wsRow.x + (id - 1) * itemWidth + (itemWidth - indicatorSize) / 2;
+        return wsRow.x + (id - 1) * itemWidth + (itemWidth - dotSize) / 2;
     }
 
     function focusWorkspace(id) {
-        if (id < 1 || id > workspaceCount)
+        if (id < 1 || id > wsCount)
             return;
         if (Hyprland.usingLua) {
             Hyprland.dispatch("hl.dsp.focus({ workspace = " + id + " })");
@@ -36,8 +36,8 @@ Item {
     }
 
     Rectangle {
-        id: activeIndicator
-        height: indicatorSize
+        id: pill
+        height: dotSize
         radius: Appearance.radius
         color: Appearance.primary_fixed
         anchors.verticalCenter: parent.verticalCenter
@@ -46,7 +46,7 @@ Item {
         property int currId: root.activeId
 
         x: Math.min(root.indicatorX(prevId), root.indicatorX(currId))
-        width: Math.abs(root.indicatorX(currId) - root.indicatorX(prevId)) + indicatorSize
+        width: Math.abs(root.indicatorX(currId) - root.indicatorX(prevId)) + dotSize
 
         Behavior on x {
             NumberAnimation {
@@ -66,15 +66,15 @@ Item {
     Timer {
         id: resetTimer
         interval: 150
-        onTriggered: activeIndicator.prevId = activeIndicator.currId
+        onTriggered: pill.prevId = pill.currId
     }
 
     Connections {
         target: Hyprland
 
         function onFocusedWorkspaceChanged() {
-            activeIndicator.prevId = activeIndicator.currId;
-            activeIndicator.currId = Hyprland.focusedWorkspace?.id ?? 1;
+            pill.prevId = pill.currId;
+            pill.currId = Hyprland.focusedWorkspace?.id ?? 1;
             resetTimer.restart();
         }
     }
@@ -85,22 +85,30 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
 
         Repeater {
-            model: workspaceCount
+            model: wsCount
 
             Item {
-                id: workspaceItem
                 width: itemWidth
-                height: workspaceHeight
+                height: 28
 
                 readonly property int workspaceId: index + 1
                 readonly property var workspace: Hyprland.workspaces.values.find(workspace => workspace.id === workspaceId)
                 readonly property bool isActive: Hyprland.focusedWorkspace?.id === workspaceId
 
+                readonly property var wsToplevel: {
+                    if (!workspace || isActive)
+                        return null;
+                    const toplevels = Hyprland.toplevels.values.filter(t => t.workspace?.id === workspaceId);
+                    return toplevels.find(t => t.activated) ?? toplevels[toplevels.length - 1] ?? null;
+                }
+                readonly property string wsIconName: wsToplevel ? (
+                    DesktopEntries.heuristicLookup(wsToplevel.wayland?.appId ?? "")?.icon ?? "") : ""
+
                 Rectangle {
-                    id: inactiveWorkspaceBg
+                    id: dotBg
                     anchors.centerIn: parent
-                    width: indicatorSize
-                    height: indicatorSize
+                    width: dotSize
+                    height: dotSize
                     radius: Appearance.radius
                     color: Appearance.secondary_fixed_dim
                     opacity: workspace && !isActive ? 0.2 : 0
@@ -114,10 +122,14 @@ Item {
                 }
 
                 Text {
-                    id: workspaceLabel
+                    id: wsLabel
                     anchors.centerIn: parent
                     text: isActive ? "󰮯" : ""
-                    color: isActive ? Appearance.secondary_fixed_dim : workspace ? Appearance.secondary_fixed : Appearance.outline
+                    color: isActive ? 
+                        Appearance.secondary_fixed_dim 
+                        : workspace ?
+                        Appearance.secondary_fixed 
+                        : Appearance.outline
                     font {
                         family: "JetBrainsMono Nerd Font"
                         pixelSize: isActive ? Appearance.base : Appearance.base - 3
@@ -127,6 +139,21 @@ Item {
                         ColorAnimation {
                             duration: 300
                             easing.type: Easing.OutBack
+                        }
+                    }
+                }
+
+                IconImage {
+                    id: wsIcon
+                    anchors.centerIn: parent
+                    implicitSize: dotSize - 8
+                    source: wsIconName ? Quickshell.iconPath(wsIconName, true) : ""
+                    opacity: wsIconName ? 0.9 : 0
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: root.animDuration
+                            easing.type: Easing.OutCubic
                         }
                     }
                 }
