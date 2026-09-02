@@ -3,7 +3,6 @@ import qs.Appearance
 import qs.Components.Clock
 import qs.Services
 import QtQuick
-import QtQuick.Effects
 
 Item {
     id: root
@@ -21,13 +20,6 @@ Item {
             anchors.fill: parent
             source: Wallpapers.wallpaperPath
             fillMode: Image.PreserveAspectCrop
-            layer.enabled: true
-            layer.effect: MultiEffect {
-                blurEnabled: true
-                autoPaddingEnabled: false
-                blurMax: 64
-                blur: 0.6
-            }
         }
 
         Rectangle {
@@ -59,7 +51,7 @@ Item {
             property: "opacity"
             from: 0
             to: 1
-            duration: 420
+            duration: 550
             easing.type: Easing.OutCubic
         }
         NumberAnimation {
@@ -98,7 +90,7 @@ Item {
                 target: content
                 property: "opacity"
                 to: 0
-                duration: 360
+                duration: 550
                 easing.type: Easing.InCubic
             }
             NumberAnimation {

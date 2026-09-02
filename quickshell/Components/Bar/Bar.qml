@@ -63,7 +63,7 @@ PanelWindow {
         }
 
         Item {
-            width: 240
+            width: 280
             height: bar.h
 
             RowLayout {
