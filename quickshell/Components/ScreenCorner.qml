@@ -23,7 +23,7 @@ Instantiator {
 
         readonly property string placement: modelData.pos
         readonly property bool fillsBarGap: modelData.gap
-        property color surfaceColor: Appearance.on_secondary
+        property color surfaceColor: Appearance.background
 
         readonly property int cornerSize: 26
         readonly property bool anchorsLeft: placement === "BottomLeft" || placement === "TopLeft"

@@ -56,26 +56,11 @@ PanelWindow {
             width: 580
             height: 310
             radius: Appearance.radius
-            color: Appearance.on_secondary
+            color: Appearance.background
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
                 bottomMargin: 18
-            }
-
-            StyledText {
-                id: title
-                text: "Wallpapers"
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    topMargin: 14
-                    leftMargin: 24
-                }
-                font {
-                    pixelSize: Appearance.base + 5
-                    bold: true
-                }
             }
 
             GridView {
@@ -85,9 +70,9 @@ PanelWindow {
                 model: Wallpapers.wallpapers
                 currentIndex: 0
                 cellWidth: 180
-                cellHeight: 125
+                cellHeight: 140
                 anchors {
-                    top: title.bottom
+                    top: parent.top
                     left: parent.left
                     right: parent.right
                     bottom: parent.bottom

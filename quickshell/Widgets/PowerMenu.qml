@@ -125,7 +125,7 @@ PanelWindow {
                         property bool hovered: mouseArea.containsMouse
                         property bool focused: p.focusIndex === index
 
-                        color: hovered || focused ? Appearance.primary_fixed : Appearance.on_secondary
+                        color: hovered || focused ? Appearance.primary_fixed : Appearance.background
                         radius: Appearance.radius
 
                         Behavior on color {

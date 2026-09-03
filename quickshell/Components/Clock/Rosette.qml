@@ -32,7 +32,7 @@ Canvas {
                 ctx.lineTo(x, y);
         }
         ctx.closePath();
-        ctx.fillStyle = Appearance.on_secondary;
+        ctx.fillStyle = Appearance.background;
         ctx.fill();
     }
 

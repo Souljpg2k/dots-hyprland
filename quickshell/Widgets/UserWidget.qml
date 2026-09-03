@@ -59,7 +59,7 @@ PanelWindow {
             width: 180
             height: 110
             radius: Appearance.radius
-            color: Appearance.on_secondary
+            color: Appearance.background
 
             ClippingRectangle {
                 width: 50

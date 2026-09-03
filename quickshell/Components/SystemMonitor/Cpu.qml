@@ -17,7 +17,7 @@ Item {
         width: 100
         height: 100
         radius: Appearance.base + 8
-        color: Appearance.on_secondary
+        color: Appearance.background
 
         Rectangle {
             anchors {

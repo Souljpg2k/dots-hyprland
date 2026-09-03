@@ -12,7 +12,7 @@ PanelWindow {
         right: true
     }
     implicitHeight: 40
-    color: Appearance.on_secondary
+    color: Appearance.background
 
     property int h: 35
 

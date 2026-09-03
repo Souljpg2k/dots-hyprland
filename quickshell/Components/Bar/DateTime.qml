@@ -37,13 +37,13 @@ StyledItem {
                     radius: Appearance.radius
                     height: 20
                     implicitWidth: timeText.implicitWidth + 16
-                    color: Appearance.surface_bright
+                    color: Appearance.on_secondary
 
                     StyledText {
                         id: timeText
                         text: DateTimeService.time
                         anchors.centerIn: parent
-                        color: Appearance.secondary_fixed_dim
+                        color: Appearance.primary
                         font.weight: Font.DemiBold
                     }
                 }
@@ -52,7 +52,7 @@ StyledItem {
                     width: 22
                     height: 22
                     radius: Appearance.radius
-                    color: Appearance.on_secondary
+                    color: Appearance.background
                     anchors {
                         right: parent.right
                         verticalCenter: time.verticalCenter

@@ -16,6 +16,8 @@ Item {
     readonly property int iconSize: 14
     readonly property int panelHeight: 40
 
+    readonly property color layoutBg: Appearance.background
+
     anchors {
         horizontalCenter: parent.horizontalCenter
         bottom: parent.bottom
@@ -93,7 +95,7 @@ Item {
             width: 110
             height: root.panelHeight
             radius: Appearance.radius
-            color: Appearance.on_secondary
+            color: root.layoutBg
 
             RowLayout {
                 anchors {
@@ -127,7 +129,7 @@ Item {
             width: 200
             height: root.panelHeight
             radius: Appearance.radius
-            color: Appearance.on_secondary
+            color: root.layoutBg
 
             TextField {
                 id: passwordBox
@@ -317,7 +319,7 @@ Item {
             width: 110
             height: root.panelHeight
             radius: Appearance.radius
-            color: Appearance.on_secondary
+            color: root.layoutBg
 
             RowLayout {
                 anchors {
