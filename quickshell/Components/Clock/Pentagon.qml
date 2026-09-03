@@ -1,11 +1,11 @@
-import qs.Appearance
+import qs.Components
 import QtQuick
 
 Canvas {
     onPaint: {
         const ctx = getContext("2d")
         ctx.reset()
-        ctx.fillStyle = Appearance.secondary_fixed
+        ctx.fillStyle = Colors.sf
         const r = 5
         ctx.beginPath()
         ctx.moveTo(9.5, 7)

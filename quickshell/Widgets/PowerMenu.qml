@@ -125,7 +125,7 @@ PanelWindow {
                         property bool hovered: mouseArea.containsMouse
                         property bool focused: p.focusIndex === index
 
-                        color: hovered || focused ? Appearance.primary_fixed : Appearance.background
+                        color: hovered || focused ? Colors.pf : Colors.bg
                         radius: Appearance.radius
 
                         Behavior on color {
@@ -138,7 +138,7 @@ PanelWindow {
                             anchors.centerIn: parent
                             text: modelData.icon
                             font.pixelSize: p.iconSize
-                            color: card.hovered || card.focused ? Appearance.on_primary : Appearance.on_surface
+                            color: card.hovered || card.focused ? Colors.bg : Colors.on_bg
                             scale: card.hovered || card.focused ? 1.12 : 1
 
                             Behavior on scale {

@@ -1,5 +1,4 @@
 import qs
-import qs.Appearance
 import qs.Components.Clock
 import qs.Services
 import QtQuick
@@ -20,12 +19,6 @@ Item {
             anchors.fill: parent
             source: Wallpapers.wallpaperPath
             fillMode: Image.PreserveAspectCrop
-        }
-
-        Rectangle {
-            anchors.fill: parent
-            color: Appearance.shadow
-            opacity: 0.1
         }
 
         Clock {

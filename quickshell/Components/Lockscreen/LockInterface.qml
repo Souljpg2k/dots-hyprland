@@ -16,7 +16,7 @@ Item {
     readonly property int iconSize: 14
     readonly property int panelHeight: 40
 
-    readonly property color layoutBg: Appearance.background
+    readonly property color layoutBg: Colors.bg
 
     anchors {
         horizontalCenter: parent.horizontalCenter
@@ -64,7 +64,7 @@ Item {
         }
         text: "Wrong password"
         font.pixelSize: 12
-        color: Appearance.error
+        color: Colors.error
         opacity: 0
 
         Connections {
@@ -173,8 +173,8 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         text: "Enter password"
                         font.pixelSize: 14
-                        color: Appearance.outline
-                        opacity: dotModel.count > 0 ? 0 : 0.7
+                        color: Colors.on_bg
+                        opacity: dotModel.count > 0 ? 0 : 0.5
 
                         Behavior on opacity {
                             NumberAnimation {
@@ -218,7 +218,7 @@ Item {
                                             family: root.iconFont
                                             pixelSize: root.iconSize
                                         }
-                                        color: Appearance.on_surface
+                                        color: Colors.on_bg
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
                                         opacity: 0
@@ -254,7 +254,7 @@ Item {
                         x: Math.min(dotsRow.implicitWidth + 2 - dotsFlickable.contentX, parent.width - width - 2)
                         width: 2
                         height: 16
-                        color: Appearance.primary
+                        color: Colors.primary
                         visible: passwordBox.activeFocus
 
                         Behavior on x {
@@ -291,12 +291,13 @@ Item {
                     width: 28
                     height: 28
                     radius: Appearance.radius - 2
-                    color: Appearance.on_background
+                    color: Colors.on_bg
 
                     MaterialIcon {
                         anchors.centerIn: parent
                         text: "arrow_forward"
-                        color: root.context.currentText.length > 0 ? Appearance.background : Appearance.outline
+                        color: Colors.bg
+                        opacity: root.context.currentText.length > 0 ? 0.8 : 0.4
 
                         Behavior on color {
                             ColorAnimation {

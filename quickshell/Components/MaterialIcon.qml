@@ -1,9 +1,10 @@
+import qs.Components
 import qs.Appearance
 import QtQuick
 
 Text {
     id: root
-    color: Appearance.on_background
+    color: Colors.on_bg
     opacity: 0.8
     font {
         family: "Material Symbols Outlined"

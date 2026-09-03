@@ -46,7 +46,7 @@ Rectangle {
             width: 20
             height: 20
             radius: Appearance.radius
-            color: Appearance.background
+            color: Colors.bg
             anchors.verticalCenter: parent.verticalCenter
 
             Image {

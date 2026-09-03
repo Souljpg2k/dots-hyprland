@@ -59,7 +59,7 @@ PanelWindow {
             width: 180
             height: 110
             radius: Appearance.radius
-            color: Appearance.background
+            color: Colors.bg
 
             ClippingRectangle {
                 width: 50
@@ -71,7 +71,7 @@ PanelWindow {
                     leftMargin: 10
                 }
                 radius: Appearance.radius + 8
-                color: Appearance.on_background
+                color: Colors.on_bg
 
                 Image {
                     anchors.fill: parent
@@ -112,12 +112,12 @@ PanelWindow {
                     width: 80
                     height: 30
                     radius: Appearance.radius
-                    color: Appearance.secondary_fixed
+                    color: Colors.sf
 
                     StyledText {
                         anchors.centerIn: parent
                         text: "󰌾  Lock"
-                        color: Appearance.on_secondary_fixed_variant
+                        color: Colors.on_sf
                     }
 
                     MouseArea {
@@ -134,7 +134,7 @@ PanelWindow {
                     radius: Appearance.radius + 4
                     border {
                         width: 1
-                        color: Appearance.secondary_fixed
+                        color: Colors.sf
                     }
 
                     MaterialIcon {
@@ -157,7 +157,7 @@ PanelWindow {
                     radius: Appearance.radius + 4
                     border {
                         width: 1
-                        color: Appearance.secondary_fixed
+                        color: Colors.sf
                     }
 
                     MaterialIcon {

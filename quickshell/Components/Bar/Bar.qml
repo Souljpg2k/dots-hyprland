@@ -1,4 +1,3 @@
-import qs.Appearance
 import qs.Components
 import Quickshell
 import QtQuick
@@ -11,10 +10,10 @@ PanelWindow {
         left: true
         right: true
     }
-    implicitHeight: 40
-    color: Appearance.background
+    implicitHeight: 35
+    color: Colors.bg
 
-    property int h: 35
+    property int h: 30
 
     RowLayout {
         anchors {

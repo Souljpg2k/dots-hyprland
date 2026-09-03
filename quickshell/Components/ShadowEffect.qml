@@ -4,12 +4,12 @@ import QtQuick.Effects
 
 Rectangle {
     id: root
-    color: Appearance.background
+    color: Colors.bg
     radius: Appearance.radius
     layer.enabled: true
     layer.effect: MultiEffect {
         shadowEnabled: true
-        shadowColor: Appearance.shadow
+        shadowColor: Colors.shadow
         shadowBlur: 0.4
     }
 }

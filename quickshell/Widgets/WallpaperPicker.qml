@@ -56,7 +56,7 @@ PanelWindow {
             width: 580
             height: 310
             radius: Appearance.radius
-            color: Appearance.background
+            color: Colors.bg
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
@@ -152,7 +152,7 @@ PanelWindow {
                         id: thumbnail
                         anchors.fill: parent
                         radius: Appearance.radius
-                        color: Appearance.on_secondary_fixed
+                        color: Colors.on_sf
                         scale: mouse.pressed ? 0.96 : 1
 
                         Behavior on scale {
@@ -172,7 +172,7 @@ PanelWindow {
 
                         Rectangle {
                             anchors.fill: parent
-                            color: Appearance.background
+                            color: Colors.bg
                             opacity: mouse.pressed ? 0.28 : mouse.containsMouse ? 0 : 0.15
 
                             Behavior on opacity {
@@ -189,7 +189,7 @@ PanelWindow {
                         color: "transparent"
                         border {
                             width: cell.selected ? 2 : 0
-                            color: Appearance.secondary_fixed
+                            color: Colors.sf
                         }
                     }
 

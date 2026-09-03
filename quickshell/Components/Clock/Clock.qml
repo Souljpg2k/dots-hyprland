@@ -21,12 +21,12 @@ Item {
             readonly property real radius: parent.width / 2 - 35
 
             text: number
-            color: Appearance.secondary
+            color: Colors.on_bg
             font {
                 pixelSize: Appearance.base + 30
                 bold: true
             }
-            opacity: 0.2
+            opacity: 0.1
             x: parent.width / 2 + Math.cos(angle * Math.PI / 180) * radius - width / 2
             y: parent.height / 2 + Math.sin(angle * Math.PI / 180) * radius - height / 2
         }
@@ -54,7 +54,7 @@ Item {
                 bold: true
             }
             text: DateTimeService.hours
-            color: Appearance.on_secondary_fixed_variant
+            color: Colors.on_sf
         }
     }
 
@@ -63,7 +63,7 @@ Item {
         width: 36
         height: 24
         radius: height / 2
-        color: Appearance.secondary_fixed
+        color: Colors.sf
         rotation: 145
 
         anchors {
@@ -76,7 +76,7 @@ Item {
         StyledText {
             anchors.centerIn: parent
             text: DateTimeService.minutes
-            color: Appearance.on_secondary_fixed_variant
+            color: Colors.on_sf
             rotation: -145
             font {
                 pixelSize: Appearance.base + 1
@@ -90,9 +90,10 @@ Item {
         width: 3
         height: 66
         radius: width / 2
-        color: Appearance.tertiary
+        color: Colors.tertiary
         x: (parent.width - width) / 2
         y: parent.height / 2 - height + 14
+
         transform: Rotation {
             origin.x: seconds.width / 2
             origin.y: seconds.height - 14
@@ -105,9 +106,10 @@ Item {
         width: 7
         height: 62
         radius: width / 2
-        color: Appearance.secondary_fixed
+        color: Colors.sf
         x: (parent.width - width) / 2
         y: parent.height / 2 - height + 5
+        
         transform: Rotation {
             origin.x: minutes.width / 2
             origin.y: minutes.height - 5
@@ -120,9 +122,10 @@ Item {
         width: 11
         height: 43
         radius: width / 2
-        color: Appearance.secondary_fixed
+        color: Colors.sf
         x: (parent.width - width) / 2
         y: parent.height / 2 - height + 5
+        
         transform: Rotation {
             origin.x: hours.width / 2
             origin.y: hours.height - 5
@@ -136,6 +139,6 @@ Item {
         height: 6
         radius: width / 2
         anchors.centerIn: parent
-        color: Appearance.on_secondary_fixed_variant
+        color: Colors.on_sf
     }
 }

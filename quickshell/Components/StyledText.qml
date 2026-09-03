@@ -1,4 +1,5 @@
 import qs.Appearance
+import qs.Components
 import QtQuick
 
 Text {
@@ -7,6 +8,6 @@ Text {
         weight: Font.Medium
         pixelSize: Appearance.base
     }
-    color: Appearance.on_background
+    color: Colors.on_bg
     opacity: 0.8
 }

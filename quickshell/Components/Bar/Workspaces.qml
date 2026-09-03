@@ -39,7 +39,7 @@ Item {
         id: pill
         height: dotSize
         radius: Appearance.radius
-        color: Appearance.primary_fixed
+        color: Colors.pf
         anchors.verticalCenter: parent.verticalCenter
 
         property int prevId: root.activeId
@@ -110,8 +110,8 @@ Item {
                     width: dotSize
                     height: dotSize
                     radius: Appearance.radius
-                    color: Appearance.secondary_fixed_dim
-                    opacity: workspace && !isActive ? 0.2 : 0
+                    color: Colors.on_bg
+                    opacity: workspace && !isActive ? 0.08 : 0
 
                     Behavior on opacity {
                         NumberAnimation {
@@ -125,11 +125,7 @@ Item {
                     id: wsLabel
                     anchors.centerIn: parent
                     text: isActive ? "󰮯" : ""
-                    color: isActive ? 
-                        Appearance.secondary_fixed_dim 
-                        : workspace ?
-                        Appearance.secondary_fixed 
-                        : Appearance.outline
+                    color: isActive ? Colors.bg : workspace ? Colors.sf : Colors.outline
                     font {
                         family: "JetBrainsMono Nerd Font"
                         pixelSize: isActive ? Appearance.base : Appearance.base - 3

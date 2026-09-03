@@ -17,7 +17,7 @@ Item {
         width: 100
         height: 100
         radius: Appearance.base + 8
-        color: Appearance.background
+        color: Colors.bg
 
         Rectangle {
             anchors {
@@ -30,12 +30,12 @@ Item {
             width: 30
             height: 30
             radius: Appearance.radius
-            color: Appearance.secondary_fixed
+            color: Colors.sf
 
             MaterialIcon {
                 anchors.centerIn: parent
                 text: "mode_fan"
-                color: Appearance.on_secondary_fixed_variant
+                color: Colors.on_sf
             }
         }
 
@@ -49,8 +49,10 @@ Item {
 
             StyledText {
                 text: SystemMonitor.gpuUsage + "%"
-                font.pixelSize: 18
-                font.bold: true
+                font {
+                    pixelSize: 18
+                    bold: true
+                }
             }
 
             StyledText {

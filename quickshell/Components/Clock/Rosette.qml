@@ -1,4 +1,4 @@
-import qs.Appearance
+import qs.Components
 import QtQuick
 import QtQuick.Effects
 
@@ -7,20 +7,24 @@ Canvas {
     layer.enabled: true
     layer.effect: MultiEffect {
         shadowEnabled: true
-        shadowColor: Appearance.shadow
+        shadowColor: Colors.shadow
         shadowOpacity: 0.4
         shadowBlur: 0.2
     }
 
     onPaint: {
         const ctx = getContext("2d");
+
         ctx.reset();
+
         const cx = width / 2;
         const cy = height / 2;
         const petals = 8;
         const baseRadius = 70;
         const waveRadius = 5;
+
         ctx.beginPath();
+
         for (let i = 0; i <= 360; i++) {
             const t = i * Math.PI / 180;
             const r = baseRadius + waveRadius * Math.sin(t * petals);
@@ -32,7 +36,7 @@ Canvas {
                 ctx.lineTo(x, y);
         }
         ctx.closePath();
-        ctx.fillStyle = Appearance.background;
+        ctx.fillStyle = Colors.bg;
         ctx.fill();
     }
 

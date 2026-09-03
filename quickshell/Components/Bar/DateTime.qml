@@ -43,7 +43,7 @@ StyledItem {
                         id: timeText
                         text: DateTimeService.time
                         anchors.centerIn: parent
-                        color: Appearance.primary
+                        color: Colors.pf
                         font.weight: Font.DemiBold
                     }
                 }
@@ -52,7 +52,7 @@ StyledItem {
                     width: 22
                     height: 22
                     radius: Appearance.radius
-                    color: Appearance.background
+                    color: Colors.bg
                     anchors {
                         right: parent.right
                         verticalCenter: time.verticalCenter
