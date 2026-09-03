@@ -1,4 +1,4 @@
-import qs.Appearance
+import qs.Components
 import qs.Services
 import QtQuick
 
@@ -21,7 +21,7 @@ Canvas {
             return;
         const step = width / (levels.length - 1);
         const y = i => height - (levels[i] / CavaService.maxValue) * 24;
-        ctx.fillStyle = Appearance.primary_fixed;
+        ctx.fillStyle = Colors.pf;
         ctx.globalAlpha = 0.35;
         ctx.beginPath();
         ctx.moveTo(0, height);
