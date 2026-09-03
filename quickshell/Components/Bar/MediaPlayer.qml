@@ -76,7 +76,7 @@ Rectangle {
             }
 
             StyledText {
-                text: "+"
+                text: "•"
             }
 
             StyledText {

@@ -11,10 +11,10 @@ PanelWindow {
         left: true
         right: true
     }
-    implicitHeight: 35
+    implicitHeight: 40
     color: Appearance.on_secondary
 
-    property int h: 30
+    property int h: 35
 
     RowLayout {
         anchors {

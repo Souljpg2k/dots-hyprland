@@ -1,9 +1,17 @@
 import qs.Appearance
 import QtQuick
+import QtQuick.Effects
 
 Canvas {
     anchors.fill: parent
-    
+    layer.enabled: true
+    layer.effect: MultiEffect {
+        shadowEnabled: true
+        shadowColor: Appearance.shadow
+        shadowOpacity: 0.4
+        shadowBlur: 0.2
+    }
+
     onPaint: {
         const ctx = getContext("2d");
         ctx.reset();

@@ -10,7 +10,7 @@ Singleton {
     property bool powerMenuClosing: false
     property bool wallpaperPickerVisible: false
     property bool userWidgetsVisible: false
-    property bool sysWidgetsVisible: true
+    property bool sysWidgetsVisible: false
 
     property bool clockVisible: true
     property bool clockClosing: false
