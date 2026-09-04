@@ -20,7 +20,7 @@ Singleton {
 
         JsonAdapter {
             id: stateAdapter
-            property bool darkMode: false
+            property bool darkMode: true
         }
     }
 
