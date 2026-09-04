@@ -40,6 +40,7 @@ Item {
         height: dotSize
         radius: Appearance.radius
         color: Colors.pf
+        opacity: 0.8
         anchors.verticalCenter: parent.verticalCenter
 
         property int prevId: root.activeId
