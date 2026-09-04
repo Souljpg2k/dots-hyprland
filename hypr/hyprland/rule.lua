@@ -54,3 +54,19 @@ hl.window_rule({
 	float = true,
 	animation = "slide bottom",
 })
+
+hl.window_rule({
+	match = { class = "org.gnome.Decibels" },
+	float = true,
+	animation = "slide bottom",
+})
+
+hl.window_rule({
+	match = { namespace = "kitty" },
+	animation = "slide bottom",
+})
+
+hl.window_rule({
+	match = { namespace = "ghostty" },
+	animation = "slide bottom",
+})

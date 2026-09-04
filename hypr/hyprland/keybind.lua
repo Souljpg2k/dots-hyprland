@@ -1,4 +1,5 @@
 local terminal    = "kitty"
+local terminal2   = "ghostty"
 local fileManager = "dolphin"
 local menu        = "rofi -show drun"
 local browser     = "zen"
@@ -13,9 +14,11 @@ hl.bind("SUPER + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
 -- Apps
 hl.bind("SUPER + Q", hl.dsp.exec_cmd(terminal))
+hl.bind("SUPER + Return", hl.dsp.exec_cmd(terminal2))
 hl.bind("SUPER + E", hl.dsp.exec_cmd(fileManager))
 hl.bind("SUPER + R", hl.dsp.exec_cmd(menu))
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
+hl.bind("SUPER + SHIFT + C", hl.dsp.exec_cmd("code"))
 
 -- Cliphist
 hl.bind("SUPER + D", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -p ' '  -no-show-icons -display-columns 2 | cliphist decode | wl-copy"))
